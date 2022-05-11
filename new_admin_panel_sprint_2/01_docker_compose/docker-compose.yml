@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  backend:
+    build: ./app
+    volumes:
+      - static_volume:/staticfiles
+    env_file:
+      - ./app/config/.env
+    depends_on:
+      - db
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    environment:
+      - POSTGRES_PASSWORD=123qwe 
+      - POSTGRES_USER=app 
+      - POSTGRES_DB=movies_database
+    env_file:
+      - ./app/config/.env
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/staticfiles
+    ports:
+      - 8000:80
+    depends_on:
+      - backend
+volumes:
+    static_volume:
+    postgres_volume:

@@ -1,0 +1,6 @@
+config/.env
+venv/
+ignored/           # Игнорировать папку
+__pycache__/
+*.py[cdo]              # Игнорировать все файлы с расширением pyc/pyd/pyo
+config/**/*.log           # Игнорировать log-файлы в app- и поддиректориях
